@@ -1,5 +1,20 @@
-# Container Action Template
+This action will copy a single binary from source container image to a new base 
+(similar to what multistage Docker build does).
 
-To get started, click the `Use this template` button on this repository [which will create a new repository based on this template](https://github.blog/2019-06-06-generate-new-repositories-with-repository-templates/).
-
-For info on how to build your first Container action, see the [toolkit docs folder](https://github.com/actions/toolkit/blob/master/docs/container-action.md).
+Usage
+====
+```
+- uses: vrutkovs/action-bin-container@master
+  with:
+    source_image: source-image:latest
+    source_path: /opt/app-root/gobinary
+    binary_base: registry.access.redhat.com/ubi8/ubi
+    binary_path: /usr/local/bin/my-real-binary
+    binary_image: quay.io/vrutkovs/binary:latest
+```
+is equivalent to building a new dockerfile:
+```
+FROM registry.access.redhat.com/ubi8/ubi
+COPY --from=source-image:latest /opt/app-root/gobinary /usr/local/bin/my-real-binary
+ENTRYPOINT ["/usr/local/bin/my-real-binary"]
+```
