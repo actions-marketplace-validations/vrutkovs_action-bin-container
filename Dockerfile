@@ -1,4 +1,4 @@
-FROM alpine:3.10
+FROM github/docker-tag:1
 
 COPY LICENSE README.md /
 

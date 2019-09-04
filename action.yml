@@ -1,12 +1,30 @@
-name: 'Container Action Template'
-description: 'Get started with Container actions'
-author: 'GitHub'
-inputs: 
-  myInput:
-    description: 'Input to use'
-    default: 'world'
+name: 'Binary-only container'
+description: 'This action prepares a new container image with just a single binary fetched from the a different container '
+author: 'Vadim Rutkovsky'
+icon: package
+color: purple
+inputs:
+  source_image:
+    description: 'source image'
+    required: true
+  source_path:
+    description: 'location of the binary in source image'
+    required: true
+  binary_base:
+    description: 'base image for binary'
+    required: true
+  binary_path:
+    description: 'location of the binary in binary image'
+    required: true
+  binary_image:
+    description: 'resulting image with the binary'
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.myInput }}
+    - ${{ inputs.binary_base }}
+    - ${{ inputs.source_image }}
+    - ${{ inputs.source_path }}
+    - ${{ inputs.binary_path }}
+    - ${{ inputs.binary_image }}
